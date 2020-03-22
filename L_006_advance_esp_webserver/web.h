@@ -1,4 +1,6 @@
 const char html_page[] PROGMEM = R"=====(
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +35,49 @@ margin-left : 15px;
  background: #FFFFFF;
 }
 
+.slidecontainer {
+ margin-top : 0px;
+ margin-right:0px;
+ margin-bottom:0px;
+ margin-left : 0px;
+  width: 100%;
+  border: 1px solid #EEEEEE;
+  background: #FFFFFF;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 50%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .0s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #326C88;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #326C88;
+  cursor: pointer;
+}
 
 
 
@@ -191,19 +236,17 @@ input:checked + .slider1:before {
 
 
 
-<div class="container-fluid" style="background: #FFFFFF">
+<div class="container-fluid" style="background: #FFFFFF;margin-left:20px;margin-right:20px;">
 
 
 
   <div class="row" style="margin-top:20px ;min-height:50px;">
-    <div class="col-sm-8">
+    <div class="col-sm-7">
       <p>YELLOW LED CONTRAST Value: <span id="slider_p"></span></p>
     </div>
 
-    <div class="col-sm-4">
-    <div class="slider-wrapper green">
-      <input class="input-range" id="myRange" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-tooltip="always" data-slider-max="100" data-slider-step="1" data-slider-value="100"/>
-    </div>
+    <div class="col-sm-5" >
+      <input type="range" min="0" max="1023" value="530" class="slider" id="myRange">
     </div>
   </div>
 
@@ -237,23 +280,6 @@ input:checked + .slider1:before {
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-
-<script>
-var slider = document.getElementById("myRange");
-var output = document.getElementById("slider_p");
-  
- output.innerHTML=100+"%";
-  pwm_change((1023);
-
-slider.onchange = function() {
-   output.innerHTML=this.value+"%";
-   
-   //i=Math.round((i*100)/1023);
-  //output.innerHTML =i + "%"; 
- // pwm_change(1023-this.value);
-}
-</script>
-
 <script>
 function pwm_change(val) {
   var xhttp = new XMLHttpRequest();
@@ -261,6 +287,26 @@ function pwm_change(val) {
   xhttp.send();
 }
 </script>
+
+<script>
+var slider = document.getElementById("myRange");
+var output = document.getElementById("slider_p");
+  
+   i=slider.value;
+   i=Math.round((i*100)/1023)
+  output.innerHTML =i + "%"; 
+  pwm_change(1023-slider.value);
+
+
+slider.onchange = function() {
+   var i=this.value;
+   i=Math.round((i*100)/1023)
+   output.innerHTML =i + "%"; 
+   pwm_change(1023-this.value);
+}
+</script>
+
+
 
 <script>
 function state_change(element,id) {
@@ -288,40 +334,11 @@ function state_change(element,id) {
   xhttp.send();
 }
 </script>
-<script>
-(function( $ ){
-$( document ).ready( function() {
-  $( '.input-range').each(function(){
-    var value = $(this).attr('data-slider-value');
-    var separator = value.indexOf(',');
-    if( separator !== -1 ){
-      value = value.split(',');
-      value.forEach(function(item, i, arr) {
-        arr[ i ] = parseFloat( item );
-      });
-    } else {
-      value = parseFloat( value );
-    }
-    $( this ).slider({
-      formatter: function(value) {
-        console.log(value);
-        if(value>0)pwm_change((100-value)*10);
-        return '%' + value;
-      },
-      min: parseFloat( $( this ).attr('data-slider-min') ),
-      max: parseFloat( $( this ).attr('data-slider-max') ), 
-      range: $( this ).attr('data-slider-range'),
-      value: value,
-      tooltip_split: $( this ).attr('data-slider-tooltip_split'),
-      tooltip: $( this ).attr('data-slider-tooltip')
-    });
-  });
-  
- } );
-} )( jQuery );
-</script>
+
 </body>
 
 </html>
+
+
 
 )=====";

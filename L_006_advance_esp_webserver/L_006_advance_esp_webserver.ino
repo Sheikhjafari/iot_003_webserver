@@ -3,15 +3,12 @@
 
 #include "web.h" // file where html page is written
 
-#define STASSID "ASheikhjafariA" // name of router
-#define STAPSK  "78322120" // pwd for router
-
 #define PWM_pin D2  // PWM pin
 #define LED1_pin D3 //  pin for LED etc.
 #define LED2_pin D4 //  pin for LED etc.
 
-const char* ssid = "ASheikhjafariA";//;STASSID;
-const char* password = STAPSK;
+const char* ssid = "**********";
+const char* password = "********";
 
 ESP8266WebServer server(80); // port 80 (standard)
 
